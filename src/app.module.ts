@@ -7,6 +7,7 @@ import { BookModule } from './book/book.module';
 import { LibraryModule } from './library/library.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './user/user.service';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UserService } from './user/user.service';
       logging: false,
       entities: ['./dist/**/**.entity.js'],
     }),
+    ScheduleModule.forRoot(),
     UserModule,
     BookModule,
     LibraryModule,
