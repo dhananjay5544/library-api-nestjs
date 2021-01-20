@@ -1,10 +1,15 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { BookIssueInput, BookReturnInput } from './inputs/library.input';
 import { LibraryService } from './library.service';
 
 @Controller('library')
 export class LibraryController {
   constructor(private libraryService: LibraryService) {}
+
+  @Get()
+  async bookHistory() {
+    return await this.libraryService.historyRecord();
+  }
 
   @Post('issue')
   async issueBook(@Body() data: BookIssueInput) {
