@@ -3,6 +3,7 @@ import {
   ActionResponse,
   BookIssueInput,
   BookReturnInput,
+  BooksIssueInput,
 } from './inputs/library.input';
 import { Library } from './library.entity';
 import { LibraryService } from './library.service';
@@ -11,9 +12,16 @@ import { LibraryService } from './library.service';
 export class LibraryResolver {
   constructor(private libraryService: LibraryService) {}
 
+  // Mutation: issue book
   @Mutation(() => ActionResponse)
   async issueBook(@Args('options') options: BookIssueInput) {
     return await this.libraryService.issueBook(options);
+  }
+
+  // Mutation: issue multiple books
+  @Mutation(() => ActionResponse)
+  async issueBooks(@Args('options') options: BooksIssueInput) {
+    return await this.libraryService.issueBooks(options);
   }
 
   // Mutation: return book

@@ -22,6 +22,15 @@ export class BookIssueInput {
 }
 
 @InputType()
+export class BooksIssueInput {
+  @Field(() => Int)
+  userid: number;
+
+  @Field(() => [Int])
+  bookids: [number];
+}
+
+@InputType()
 export class BookReturnInput {
   @Field(() => Int)
   userid: number;

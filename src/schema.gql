@@ -76,6 +76,7 @@ type Mutation {
   updateBook(input: BookUpdateInput!, id: Float!): String!
   deleteBook(id: Float!): String!
   issueBook(options: BookIssueInput!): ActionResponse!
+  issueBooks(options: BooksIssueInput!): ActionResponse!
   returnBook(options: BookReturnInput!): ActionResponse!
 }
 
@@ -118,6 +119,11 @@ input AuthorUpdateInput {
 input BookIssueInput {
   userid: Int!
   bookid: Int!
+}
+
+input BooksIssueInput {
+  userid: Int!
+  bookids: [Int!]!
 }
 
 input BookReturnInput {

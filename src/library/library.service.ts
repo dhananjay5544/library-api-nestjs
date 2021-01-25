@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Book } from 'src/book/book.entity';
 import { User } from 'src/user/user.entity';
-import { getManager } from 'typeorm';
-import { BookIssueInput, BookReturnInput } from './inputs/library.input';
+import { getManager, In } from 'typeorm';
+import {
+  BookIssueInput,
+  BookReturnInput,
+  BooksIssueInput,
+} from './inputs/library.input';
 import { Library } from './library.entity';
 
 @Injectable()
@@ -109,6 +113,69 @@ export class LibraryService {
         return {
           status: 422,
           msg: `book was not issued to user ${options.userid}`,
+        };
+      }
+    } else {
+      return {
+        status: 404,
+        msg: `User not found`,
+      };
+    }
+  }
+
+  // Issue multiple books at once
+  async issueBooks(options: BooksIssueInput) {
+    // check user exists or not
+    var user = await User.find({
+      where: { user_id: options.userid },
+      relations: ['books'],
+    });
+    var book = await Book.find({
+      where: { book_id: In(options.bookids) },
+      relations: ['users'],
+    });
+
+    if (user.length !== 0) {
+      // check book already issued
+      const isIssued = await Library.find({
+        select: ['bookid'],
+        where: {
+          bookid: In(options.bookids),
+          userid: options.userid,
+          status: 'issued',
+        },
+      });
+
+      var temp = isIssued.map((i) => i.bookid);
+      book = book.filter((b) => !temp.includes(b.book_id));
+
+      var booksCanBeIssued = book.map((b) => b.book_id);
+
+      if (book.length !== 0) {
+        book.map(async (b) => {
+          Object.assign(user[0], user[0].books.push(b));
+          await Library.create({
+            status: 'issued',
+            userid: options.userid,
+            bookid: b.book_id,
+          }).save();
+        });
+        await user[0].save();
+        // decreament book count
+        await getManager().decrement(
+          Book,
+          { book_id: In(booksCanBeIssued) },
+          'quantity',
+          1,
+        );
+        return {
+          status: 404,
+          msg: `Books issued to ${user[0].firstname}`,
+        };
+      } else {
+        return {
+          status: 401,
+          msg: `All the books has been already issued to ${user[0].firstname}`,
         };
       }
     } else {
