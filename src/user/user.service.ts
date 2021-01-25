@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Library } from '../library/library.entity';
 import { UserInput, UserUpdateInput } from './inputs/user.input';
 import { User } from './user.entity';
 
@@ -36,8 +37,13 @@ export class UserService {
     const user = await User.find({
       where: { user_id: id },
     });
+    const bookIssued = await Library.find({
+      where: { userid: id, status: 'issued' },
+    });
     if (user.length === 0) {
       return { status: 404, msg: 'user not found!' };
+    } else if (bookIssued.length !== 0) {
+      return { status: 201, msg: 'operation not allowed' };
     } else {
       await User.delete({ user_id: id });
       return { status: 200, msg: 'user deleted' };

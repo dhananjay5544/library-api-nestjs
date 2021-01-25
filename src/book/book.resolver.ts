@@ -7,7 +7,7 @@ import { BookService } from './book.service';
 export class BookResolver {
   constructor(private bookService: BookService) {}
 
-  @Query(() => BookOutput)
+  @Query(() => [BookOutput])
   async book(@Args('id') id: number) {
     return await this.bookService.getBook(id);
   }

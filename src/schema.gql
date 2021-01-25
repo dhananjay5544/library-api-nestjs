@@ -1,0 +1,126 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Author {
+  author_id: Int!
+  author_name: String!
+  author_email: String!
+}
+
+type Book {
+  book_id: Int!
+  title: String!
+  quantity: Int!
+  author: Author!
+}
+
+type User {
+  user_id: Int!
+  firstname: String!
+  lastname: String!
+  email: String!
+  age: Int!
+}
+
+type Library {
+  id: Int!
+  bookid: Int!
+  userid: Int!
+  status: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserOutput {
+  user_id: Int!
+  firstname: String!
+  lastname: String!
+  email: String!
+  age: Int!
+  books: [Book!]!
+}
+
+type BookOutput {
+  book_id: Int!
+  title: String!
+  author: Author!
+  quantity: Int!
+  users: [User!]
+}
+
+type ActionResponse {
+  status: Int!
+  msg: String!
+  reminder: String
+}
+
+type Query {
+  user(id: Float!): UserOutput!
+  users: [UserOutput!]!
+  book(id: Float!): [BookOutput!]!
+  books: [BookOutput!]!
+  Library: [Library!]!
+}
+
+type Mutation {
+  addUser(input: UserInput!): User!
+  updateUser(input: UserUpdateInput!, id: Float!): String!
+  deleteUser(id: Float!): String!
+  addBook(input: BookInput!): Book!
+  updateBook(input: BookUpdateInput!, id: Float!): String!
+  deleteBook(id: Float!): String!
+  issueBook(options: BookIssueInput!): ActionResponse!
+  returnBook(options: BookReturnInput!): ActionResponse!
+}
+
+input UserInput {
+  firstname: String!
+  lastname: String!
+  email: String!
+  age: Int!
+}
+
+input UserUpdateInput {
+  firstname: String
+  lastname: String
+  email: String
+  age: Int
+}
+
+input BookInput {
+  title: String!
+  author: AuthorInput!
+  quantity: Int!
+}
+
+input AuthorInput {
+  author_name: String!
+  author_email: String!
+}
+
+input BookUpdateInput {
+  title: String
+  author: AuthorUpdateInput
+  quantity: Int
+}
+
+input AuthorUpdateInput {
+  author_name: String
+  author_email: String
+}
+
+input BookIssueInput {
+  userid: Int!
+  bookid: Int!
+}
+
+input BookReturnInput {
+  userid: Int!
+  bookid: Int!
+}

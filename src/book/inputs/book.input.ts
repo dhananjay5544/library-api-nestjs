@@ -1,5 +1,6 @@
-import { User } from '../../user/user.entity';
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
+import { Author } from '../author.entity';
+import { User } from '../../user/user.entity';
 
 @ObjectType()
 export class BookOutput {
@@ -9,14 +10,32 @@ export class BookOutput {
   @Field()
   title: string;
 
-  @Field()
-  author: string;
+  @Field(() => Author)
+  author: Author;
 
   @Field(() => Int)
   quantity: number;
 
-  @Field(() => [User])
+  @Field(() => [User], { nullable: true })
   users?: User;
+}
+
+@InputType()
+export class AuthorInput {
+  @Field()
+  author_name: string;
+
+  @Field()
+  author_email: string;
+}
+
+@InputType()
+export class AuthorUpdateInput {
+  @Field(() => String, { nullable: true })
+  author_name?: string;
+
+  @Field(() => String, { nullable: true })
+  author_email?: string;
 }
 
 @InputType()
@@ -24,8 +43,8 @@ export class BookInput {
   @Field()
   title: string;
 
-  @Field()
-  author: string;
+  @Field(() => AuthorInput)
+  author: AuthorInput;
 
   @Field(() => Int)
   quantity: number;
@@ -36,8 +55,8 @@ export class BookUpdateInput {
   @Field(() => String, { nullable: true })
   title?: string;
 
-  @Field(() => String, { nullable: true })
-  author?: string;
+  @Field(() => AuthorUpdateInput, { nullable: true })
+  author?: AuthorUpdateInput;
 
   @Field(() => Int, { nullable: true })
   quantity?: number;

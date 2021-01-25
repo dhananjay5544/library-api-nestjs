@@ -38,6 +38,8 @@ export class User extends BaseEntity {
   @JoinTable()
   books: Book[];
 
-  @OneToMany(() => Library, (library) => library.userid)
+  @OneToMany(() => Library, (library) => library.userid, {
+    onDelete: 'CASCADE',
+  })
   userinfo: Library;
 }

@@ -8,11 +8,13 @@ import { LibraryModule } from './library/library.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './user/user.service';
 import { ScheduleModule } from '@nestjs/schedule';
+import { join } from 'path';
 
 @Module({
   imports: [
+    //ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot({
-      autoSchemaFile: true,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',

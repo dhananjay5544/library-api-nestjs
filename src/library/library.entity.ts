@@ -25,7 +25,8 @@ export class Library extends BaseEntity {
   @Field(() => Int)
   @Column()
   userid: number;
-  @ManyToOne(() => User, (user) => user.user_id)
+
+  @ManyToOne(() => User, (user) => user.user_id, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userid' })
   userinfo: User;
 
