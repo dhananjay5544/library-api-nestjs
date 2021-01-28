@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Book } from 'src/book/book.entity';
-import { User } from 'src/user/user.entity';
+import { Book } from '../book/book.entity';
+import { User } from '../user/user.entity';
 import { getManager, In } from 'typeorm';
 import {
   BookIssueInput,
