@@ -27,7 +27,7 @@ export class Book extends BaseEntity {
   quantity: number;
 
   @Field()
-  @OneToOne(() => Author, { cascade: true })
+  @OneToOne(() => Author, { cascade: true, eager: true })
   @JoinColumn()
   author: Author;
 

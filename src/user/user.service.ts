@@ -7,14 +7,13 @@ import { User } from './user.entity';
 export class UserService {
   async getUser(id: number) {
     const user = await User.find({
-      relations: ['books'],
       where: { user_id: id },
     });
     return user[0];
   }
 
   async getUsers() {
-    return await User.find({ relations: ['books'] });
+    return await User.find();
   }
 
   async addUser(user: UserInput): Promise<User> {

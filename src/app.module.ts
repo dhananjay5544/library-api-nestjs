@@ -6,13 +6,11 @@ import { UserModule } from './user/user.module';
 import { BookModule } from './book/book.module';
 import { LibraryModule } from './library/library.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserService } from './user/user.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { join } from 'path';
 
 @Module({
   imports: [
-    //ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
@@ -33,6 +31,6 @@ import { join } from 'path';
     LibraryModule,
   ],
   controllers: [AppController],
-  providers: [AppService, UserService],
+  providers: [AppService],
 })
 export class AppModule {}

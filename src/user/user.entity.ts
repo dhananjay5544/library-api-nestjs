@@ -34,7 +34,7 @@ export class User extends BaseEntity {
   @Column('int')
   age: number;
 
-  @ManyToMany(() => Book, (book: Book) => book.users)
+  @ManyToMany(() => Book, (book: Book) => book.users, { eager: true })
   @JoinTable()
   books: Book[];
 

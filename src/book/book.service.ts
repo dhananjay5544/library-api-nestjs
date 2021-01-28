@@ -7,14 +7,14 @@ import { Author } from './author.entity';
 export class BookService {
   async getBook(id: number) {
     const book = await Book.find({
-      relations: ['users', 'author'],
+      relations: ['users'],
       where: { book_id: id },
     });
     return book;
   }
 
   async getBooks() {
-    return await Book.find({ relations: ['users', 'author'] });
+    return await Book.find({ relations: ['users'] });
   }
 
   async addBook(newBook: BookInput): Promise<Book> {
@@ -30,7 +30,6 @@ export class BookService {
   async updateBook(id: number, updateData: BookUpdateInput) {
     var book = await Book.findOne({
       where: { book_id: id },
-      relations: ['author'],
     });
 
     if (!book) {
