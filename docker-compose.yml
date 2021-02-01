@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+  api:
+    container_name: emtec-library
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    env_file:
+      - .env
+    networks:
+      - library-net
+    depends_on:
+      - mysql
+
+  mysql:
+    container_name: ms2
+    image: mysql/mysql-server
+    networks:
+      - library-net
+    environment:
+      MYSQL_DATABASE: ${PROD_DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 3306:3306
+    volumes:
+      - ms2data:/var/lib/mysql
+
+networks:
+  library-net:
+volumes:
+  ms2data:
