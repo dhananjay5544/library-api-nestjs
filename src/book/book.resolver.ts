@@ -1,7 +1,8 @@
 import { Query, Resolver, Mutation, Args, Int } from '@nestjs/graphql';
-import { BookInput, BookOutput, BookUpdateInput } from './inputs/book.input';
 import { Book } from './book.entity';
 import { BookService } from './book.service';
+import { BookInput, BookUpdateInput } from './inputs/book.input';
+import { BookCursor, BookOutput } from './inputs/book.output';
 
 @Resolver()
 export class BookResolver {
@@ -12,9 +13,12 @@ export class BookResolver {
     return await this.bookService.getBook(id);
   }
 
-  @Query(() => [BookOutput])
-  async books() {
-    return await this.bookService.getBooks();
+  @Query(() => BookCursor)
+  async books(
+    @Args('page', { nullable: true }) page?: number,
+    @Args('limit', { nullable: true }) limit?: number,
+  ) {
+    return await this.bookService.getBooks(page, limit);
   }
 
   @Mutation(() => Book)

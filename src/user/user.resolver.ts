@@ -1,5 +1,6 @@
 import { Query, Resolver, Mutation, Args, Int } from '@nestjs/graphql';
-import { UserInput, UserOutput, UserUpdateInput } from './inputs/user.input';
+import { UserInput, UserUpdateInput } from './inputs/user.input';
+import { UserCursor, UserOutput } from './inputs/user.output';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -12,9 +13,12 @@ export class UserResolver {
     return await this.userService.getUser(id);
   }
 
-  @Query(() => [UserOutput])
-  async users() {
-    return await this.userService.getUsers();
+  @Query(() => UserCursor)
+  async users(
+    @Args('page', { nullable: true }) page: number,
+    @Args('limit', { nullable: true }) limit: number,
+  ) {
+    return await this.userService.getUsers(page, limit);
   }
 
   @Mutation(() => User)

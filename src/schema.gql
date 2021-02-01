@@ -46,12 +46,24 @@ type UserOutput {
   books: [Book!]!
 }
 
+type UserCursor {
+  page: Int
+  hasMore: Boolean!
+  users: [UserOutput!]!
+}
+
 type BookOutput {
   book_id: Int!
   title: String!
   author: Author!
   quantity: Int!
   users: [User!]
+}
+
+type BookCursor {
+  page: Int
+  hasMore: Boolean!
+  books: [BookOutput!]!
 }
 
 type ActionResponse {
@@ -62,9 +74,9 @@ type ActionResponse {
 
 type Query {
   user(id: Float!): UserOutput!
-  users: [UserOutput!]!
+  users(limit: Float, page: Float): UserCursor!
   book(id: Float!): [BookOutput!]!
-  books: [BookOutput!]!
+  books(limit: Float, page: Float): BookCursor!
   Library: [Library!]!
 }
 

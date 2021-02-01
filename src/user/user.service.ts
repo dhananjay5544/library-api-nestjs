@@ -12,8 +12,15 @@ export class UserService {
     return user[0];
   }
 
-  async getUsers() {
-    return await User.find();
+  async getUsers(page: number, limit: number) {
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const response = {
+      page,
+      hasMore: endIndex < (await User.count()),
+      users: await User.find({ take: limit, skip: startIndex }),
+    };
+    return response;
   }
 
   async addUser(user: UserInput): Promise<User> {

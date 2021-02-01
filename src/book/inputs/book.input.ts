@@ -1,24 +1,4 @@
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-import { Author } from '../author.entity';
-import { User } from '../../user/user.entity';
-
-@ObjectType()
-export class BookOutput {
-  @Field(() => Int)
-  book_id: number;
-
-  @Field()
-  title: string;
-
-  @Field(() => Author)
-  author: Author;
-
-  @Field(() => Int)
-  quantity: number;
-
-  @Field(() => [User], { nullable: true })
-  users?: User;
-}
+import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class AuthorInput {

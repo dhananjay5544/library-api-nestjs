@@ -13,8 +13,19 @@ export class BookService {
     return book;
   }
 
-  async getBooks() {
-    return await Book.find({ relations: ['users'] });
+  async getBooks(page: number, limit: number) {
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const response = {
+      page,
+      hasMore: endIndex < (await Book.count()),
+      books: await Book.find({
+        take: limit,
+        skip: startIndex,
+        relations: ['users'],
+      }),
+    };
+    return response;
   }
 
   async addBook(newBook: BookInput): Promise<Book> {

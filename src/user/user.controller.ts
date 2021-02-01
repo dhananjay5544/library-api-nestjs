@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { UserUpdateInput } from './inputs/user.input';
 import { User } from './user.entity';
@@ -21,8 +22,8 @@ export class UserController {
   }
 
   @Get()
-  getUsers() {
-    return this.userService.getUsers();
+  getUsers(@Query() query) {
+    return this.userService.getUsers(query.page, query.limit);
   }
 
   @Post()

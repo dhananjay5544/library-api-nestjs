@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { Book } from './book.entity';
 import { BookService } from './book.service';
@@ -21,8 +22,8 @@ export class BookController {
   }
 
   @Get()
-  getBooks() {
-    return this.bookService.getBooks();
+  getBooks(@Query() query) {
+    return this.bookService.getBooks(query.page, query.limit);
   }
 
   @Post()
