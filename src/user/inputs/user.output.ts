@@ -30,6 +30,9 @@ export class UserCursor {
   @Field(() => Boolean)
   hasMore: boolean;
 
+  @Field(() => Int)
+  totalUsers: number;
+
   @Field(() => [UserOutput])
   users: UserOutput;
 }

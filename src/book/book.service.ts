@@ -16,9 +16,11 @@ export class BookService {
   async getBooks(page: number, limit: number) {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
+    const count = await Book.count();
     const response = {
       page,
-      hasMore: endIndex < (await Book.count()),
+      hasMore: endIndex < count,
+      totalBooks: count,
       books: await Book.find({
         take: limit,
         skip: startIndex,

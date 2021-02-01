@@ -28,6 +28,9 @@ export class BookCursor {
   @Field(() => Boolean)
   hasMore: boolean;
 
+  @Field(() => Int)
+  totalBooks: number;
+
   @Field(() => [BookOutput])
   books: BookOutput;
 }

@@ -15,9 +15,11 @@ export class UserService {
   async getUsers(page: number, limit: number) {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
+    const count = await User.count();
     const response = {
       page,
-      hasMore: endIndex < (await User.count()),
+      hasMore: endIndex < count,
+      totalUsers: count,
       users: await User.find({ take: limit, skip: startIndex }),
     };
     return response;
