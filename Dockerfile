@@ -1,4 +1,4 @@
-FROM node:current-alpine3.12 AS builder
+FROM node:latest AS builder
 
 WORKDIR /usr/src/app
 
