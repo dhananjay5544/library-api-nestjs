@@ -14,16 +14,17 @@ services:
       - mysql
 
   mysql:
-    container_name: ms2
-    image: mysql/mysql-server
+    container_name: db
+    image: mysql
     networks:
       - library-net
     environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${PROD_DB_NAME}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - 3306:3306
+      - ${DB_PORT}:${DB_PORT}
     volumes:
       - ms2data:/var/lib/mysql
 
