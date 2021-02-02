@@ -1,4 +1,4 @@
-# Library-API
+# Library API
 
 > Backend API that supports both REST and GraphQL.
 
@@ -10,30 +10,152 @@
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Library management API build in Nest.js which uses TypeORM so it can be migrated to any database as per requirement. API has custom validations and cursor based pagination.
+
+#### Documentation
+
+**1. GraphQL**
+GraphQL api runs on apollo playground which is self documented. It'll run on following url
+
+```bash
+http://localhost:3000/graphql
+```
+
+**2. REST**
+
+- add book
+
+  ```bash
+  POST http://localhost:3000/book
+  content-type: application/json
+
+  {
+    "title":"spirit of the day",
+    "author":{
+      "author_name":"john doe",
+      "author_email":"johndoe@gmail.com"
+    },
+    "quantity":20
+  }
+  ```
+
+- get book by id
+  ```bash
+  GET http://localhost:3000/book/1
+  ```
+- get books
+  - normal request
+    ```bash
+    GET http://localhost:3000/book
+    ```
+  - pagination request with query params
+    ```bash
+    GET http://localhost:3000/book?page=1&limit=10
+    ```
+- update book
+
+  ```bash
+  PUT http://localhost:3000/book/1
+  content-type: application/json
+
+  {
+    "title":"heaven"
+  }
+  ```
+
+- delete book
+  ```bash
+  DELETE http://localhost:3000/book/1
+  ```
+- issue book
+
+  - issue single book per request to user
+
+    ```bash
+    POST http://localhost:3000/library/issue
+    content-type: application/json
+
+    {
+      "bookid":1,
+      "userid":1
+    }
+    ```
+
+  - issue multiple books per request to user
+
+    ```bash
+    POST http://localhost:3000/library/issue
+    content-type: application/json
+
+    {
+      "bookid":[1,2,3],
+      "userid":1
+    }
+    ```
+
+- return book
+
+  ```bash
+  POST http://localhost:3000/library/return
+  content-type: application/json
+
+  {
+    "bookid":1,
+    "userid":1
+  }
+  ```
+
+- add user
+
+  ```bash
+  POST http://localhost:3000/user
+  content-type: application/json
+
+  {
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "johndow@gmail.com",
+    "age": 10,
+  }
+  ```
+
+- get user by id
+  ```bash
+  GET http://localhost:3000/user/1
+  ```
+- get users
+  - normal request
+    ```bash
+    GET http://localhost:3000/user
+    ```
+  - pagination request with query params
+    ```bash
+    GET http://localhost:3000/user?page=1&limit=10
+    ```
+- update user
+
+  ```bash
+  PUT http://localhost:3000/user/1
+  content-type: application/json
+
+  {
+    "firstname":"Kevin"
+  }
+  ```
+
+- delete user
+  ```bash
+  DELETE http://localhost:3000/user/1
+  ```
 
 ## Installation
 
 ```bash
-$ npm install
+# Setting app for developement
+$ yarn install
 ```
 
 ## Running the app
@@ -49,6 +171,16 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Docker Setup
+
+```bash
+# Building image form Dockerfile
+$ docker build -t image-name:tag .
+
+# Spinnig up the container with docker-compose
+$ docker-compose up
+```
+
 ## Test
 
 ```bash
@@ -62,14 +194,10 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+### Author
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Dhananjay Shinde]
+Dhananjay Shinde [Twitter](www.twitter.com/jay.speaks___)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+Library-API is [MIT licensed](LICENSE).
