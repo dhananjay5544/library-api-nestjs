@@ -1,4 +1,4 @@
-# Library API
+# Library API :book:
 
 > Backend API that supports both REST and GraphQL.
 
@@ -18,7 +18,7 @@ Library management API build in Nest.js which uses TypeORM so it can be migrated
 #### Documentation
 
 **1. GraphQL**
-GraphQL api runs on apollo playground which is self documented. It'll run on following url
+GraphQL api runs on apollo playground which is self documented. It'll run on following url :rocket:
 
 ```bash
 http://localhost:3000/graphql
