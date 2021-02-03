@@ -121,7 +121,7 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
   }
   ```
 
-  While registering new user. we have done validation to check whether user is already registered or not.We are simply just checking email from req body with exisiting user. If user found then response is like this:
+  While registering new user, we have done validation to check whether user is already registered or not. We are simply just checking email from req body with exisiting user. If user found then response is like this:
 
   ```bash
   {
@@ -158,7 +158,7 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
   }
   ```
 
-  Login authentication simply checks user exists or not if user not exists it will respond with User not registered. If user found, then it will check password if password matches it generates [JWT]("https://jwt.io/") token as a response.
+  Login authentication simply checks user exists or not if user not exists it will respond with User not registered. If user found, then it will check password if password matches it generates [JWT](https://jwt.io) token as a response.
 
   ```bash
   {
