@@ -10,7 +10,10 @@ export class UserService {
   constructor(private authService: AuthService) {}
 
   async userLogin(email: string, password: string): Promise<AuthResponse> {
-    const user = await User.findOne({ email });
+    const user = await User.createQueryBuilder('row')
+      .addSelect('row.password')
+      .where('email = :email', { email })
+      .getOne();
     if (!user) {
       return {
         status: 404,
