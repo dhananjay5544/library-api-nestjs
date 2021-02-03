@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { Library } from '../library/library.entity';
 import { UserInput, UserUpdateInput } from './inputs/user.input';
-import { AuthResponse } from './inputs/user.output';
+import { AddUserResponse, AuthResponse } from './inputs/user.output';
 import { User } from './user.entity';
 
 @Injectable()
@@ -51,9 +51,21 @@ export class UserService {
     return response;
   }
 
-  async addUser(user: UserInput): Promise<User> {
-    user.password = await this.authService.hashPassword(user.password);
-    return await User.create(user).save();
+  async addUser(user: UserInput): Promise<AddUserResponse> {
+    const userExists = await User.findOne({ email: user.email });
+    if (userExists) {
+      return {
+        status: 400,
+        msg: 'user already registered',
+      };
+    } else {
+      user.password = await this.authService.hashPassword(user.password);
+      return {
+        status: 200,
+        msg: 'user registered successfully',
+        user: await User.create(user).save(),
+      };
+    }
   }
 
   async updateUser(id: number, updateData: UserUpdateInput) {
