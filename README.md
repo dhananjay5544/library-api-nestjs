@@ -20,13 +20,11 @@ Library management API build in Nest.js which uses TypeORM so it can be migrated
 **1. GraphQL**
 GraphQL api runs on apollo playground which is self documented. It'll run on following url :rocket:
 
-```bash
-http://localhost:3000/graphql
-```
+> http://localhost:3000/graphql
 
 **2. REST**
 
-- add book
+- **Add book**
 
   ```bash
   POST http://localhost:3000/book
@@ -42,11 +40,11 @@ http://localhost:3000/graphql
   }
   ```
 
-- get book by id
+- **Get book by id**
   ```bash
   GET http://localhost:3000/book/1
   ```
-- get books
+- **Get books**
   - normal request
     ```bash
     GET http://localhost:3000/book
@@ -55,7 +53,7 @@ http://localhost:3000/graphql
     ```bash
     GET http://localhost:3000/book?page=1&limit=10
     ```
-- update book
+- **Update book**
 
   ```bash
   PUT http://localhost:3000/book/1
@@ -66,11 +64,11 @@ http://localhost:3000/graphql
   }
   ```
 
-- delete book
+- **Delete book**
   ```bash
   DELETE http://localhost:3000/book/1
   ```
-- issue book
+- **Issue book**
 
   - issue single book per request to user
 
@@ -96,7 +94,7 @@ http://localhost:3000/graphql
     }
     ```
 
-- return book
+- **Return book**
 
   ```bash
   POST http://localhost:3000/library/return
@@ -108,7 +106,7 @@ http://localhost:3000/graphql
   }
   ```
 
-- add user
+- **Register user**
 
   ```bash
   POST http://localhost:3000/user
@@ -118,15 +116,63 @@ http://localhost:3000/graphql
     "firstname": "John",
     "lastname": "Doe",
     "email": "johndow@gmail.com",
+    "password": "root123",
     "age": 10,
   }
   ```
 
-- get user by id
+  While registering new user. we have done validation to check whether user is already registered or not.We are simply just checking email from req body with exisiting user. If user found then response is like this:
+
+  ```bash
+  {
+    "status":200,
+    "msg":"user already registered"
+  }
+  ```
+
+  Otherwise user get successfully registered
+
+  ```bash
+  {
+    "status":200,
+    "msg":"user registered successfully",
+    "user":{
+      "firstname": "John",
+      "lastname": "Doe",
+      "email": "johndow@gmail.com",
+      "password": "<hash-password>",
+      "age": 10,
+    }
+  }
+  ```
+
+- **User Login**
+
+  ```bash
+  POST http://localhost:3000/user/auth
+  content-type: application/json
+
+  {
+    "email": "johndow@gmail.com",
+    "password": "root123",
+  }
+  ```
+
+  Login authentication simply checks user exists or not if user not exists it will respond with User not registered. If user found, then it will check password if password matches it generates [JWT]("https://jwt.io/") token as a response.
+
+  ```bash
+  {
+    "status":200,
+    "msg":"login successful",
+    "token":"<jwt-token>"
+  }
+  ```
+
+- **Get user by id**
   ```bash
   GET http://localhost:3000/user/1
   ```
-- get users
+- **Get users**
   - normal request
     ```bash
     GET http://localhost:3000/user
@@ -135,7 +181,7 @@ http://localhost:3000/graphql
     ```bash
     GET http://localhost:3000/user?page=1&limit=10
     ```
-- update user
+- **Update user**
 
   ```bash
   PUT http://localhost:3000/user/1
@@ -146,7 +192,7 @@ http://localhost:3000/graphql
   }
   ```
 
-- delete user
+- **Delete user**
   ```bash
   DELETE http://localhost:3000/user/1
   ```
