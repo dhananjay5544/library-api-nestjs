@@ -11,19 +11,36 @@ import {
 import { UserUpdateInput } from './inputs/user.input';
 import { User } from './user.entity';
 import { UserService } from './user.service';
+import * as cacheManager from 'cache-manager';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
+  manager = cacheManager.caching({ store: 'memory', ttl: 10, max: 100 });
   @Get(':id')
-  getUser(@Param() param) {
-    return this.userService.getUser(param.id);
+  async getUser(@Param() param) {
+    const cached = await this.manager.get(`user${param.id}`);
+    if (cached) {
+      return cached;
+    }
+    this.manager.set(
+      `user${param.id}`,
+      await this.userService.getUser(param.id),
+    );
+    return await this.manager.get(`user${param.id}`);
   }
 
   @Get()
-  getUsers(@Query() query) {
-    return this.userService.getUsers(query.page, query.limit);
+  async getUsers(@Query() query) {
+    const cached = await this.manager.get(`users${query.page}-${query.limit}`);
+    if (cached) {
+      return cached;
+    }
+    this.manager.set(
+      `users${query.page}-${query.limit}`,
+      await this.userService.getUsers(query.page, query.limit),
+    );
+    return await this.manager.get(`users${query.page}-${query.limit}`);
   }
 
   @Post()
