@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { join } from 'path';
 //import { TYPEORM } from './environments';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     GraphQLModule.forRoot({
@@ -29,6 +30,7 @@ import { join } from 'path';
     UserModule,
     BookModule,
     LibraryModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

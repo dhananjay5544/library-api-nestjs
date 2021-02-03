@@ -30,6 +30,10 @@ export class User extends BaseEntity {
   @Column()
   email: string;
 
+  @Field()
+  @Column()
+  password: string;
+
   @Field(() => Int)
   @Column('int')
   age: number;

@@ -8,7 +8,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { UserUpdateInput } from './inputs/user.input';
+import { UserUpdateInput, LoginInput } from './inputs/user.input';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 import * as cacheManager from 'cache-manager';
@@ -46,6 +46,11 @@ export class UserController {
   @Post()
   addUser(@Body() user: User) {
     return this.userService.addUser(user);
+  }
+
+  @Post('auth')
+  login(@Body() data: LoginInput) {
+    return this.userService.userLogin(data.email, data.password);
   }
 
   @Put(':id')

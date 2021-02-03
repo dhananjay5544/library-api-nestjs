@@ -11,6 +11,9 @@ export class UserInput {
   @Field()
   email: string;
 
+  @Field()
+  password: string;
+
   @Field(() => Int)
   age: number;
 }
@@ -26,6 +29,18 @@ export class UserUpdateInput {
   @Field(() => String, { nullable: true })
   email?: string;
 
+  @Field(() => String, { nullable: true })
+  password?: string;
+
   @Field(() => Int, { nullable: true })
   age?: number;
+}
+
+@InputType()
+export class LoginInput {
+  @Field()
+  email: string;
+
+  @Field()
+  password: string;
 }

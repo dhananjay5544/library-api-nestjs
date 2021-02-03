@@ -36,3 +36,15 @@ export class UserCursor {
   @Field(() => [UserOutput])
   users: UserOutput;
 }
+
+@ObjectType()
+export class AuthResponse {
+  @Field(() => Int)
+  status: number;
+
+  @Field(() => String, { nullable: true })
+  token?: string;
+
+  @Field(() => String)
+  msg: string;
+}

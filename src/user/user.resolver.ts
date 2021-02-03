@@ -1,12 +1,17 @@
 import { Query, Resolver, Mutation, Args, Int } from '@nestjs/graphql';
-import { UserInput, UserUpdateInput } from './inputs/user.input';
-import { UserCursor, UserOutput } from './inputs/user.output';
+import { LoginInput, UserInput, UserUpdateInput } from './inputs/user.input';
+import { AuthResponse, UserCursor, UserOutput } from './inputs/user.output';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
 @Resolver()
 export class UserResolver {
   constructor(private userService: UserService) {}
+
+  @Query(() => AuthResponse)
+  async login(@Args('options') data: LoginInput) {
+    return await this.userService.userLogin(data.email, data.password);
+  }
 
   @Query(() => UserOutput)
   async user(@Args('id') id: number) {

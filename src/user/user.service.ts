@@ -1,10 +1,36 @@
 import { Injectable } from '@nestjs/common';
+import { AuthService } from 'src/auth/auth.service';
 import { Library } from '../library/library.entity';
 import { UserInput, UserUpdateInput } from './inputs/user.input';
+import { AuthResponse } from './inputs/user.output';
 import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
+  constructor(private authService: AuthService) {}
+
+  async userLogin(email: string, password: string): Promise<AuthResponse> {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return {
+        status: 404,
+        msg: 'User not registered',
+      };
+    }
+    const res = await this.authService.comparePassword(password, user.password);
+    if (res) {
+      return {
+        status: 200,
+        token: await this.authService.generateJWT(user),
+        msg: 'login successful',
+      };
+    }
+    return {
+      status: 401,
+      msg: 'Invalid password',
+    };
+  }
+
   async getUser(id: number) {
     const user = await User.find({
       where: { user_id: id },
@@ -26,6 +52,7 @@ export class UserService {
   }
 
   async addUser(user: UserInput): Promise<User> {
+    user.password = await this.authService.hashPassword(user.password);
     return await User.create(user).save();
   }
 

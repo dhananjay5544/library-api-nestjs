@@ -20,6 +20,7 @@ type User {
   firstname: String!
   lastname: String!
   email: String!
+  password: String!
   age: Int!
 }
 
@@ -53,6 +54,12 @@ type UserCursor {
   users: [UserOutput!]!
 }
 
+type AuthResponse {
+  status: Int!
+  token: String
+  msg: String!
+}
+
 type BookOutput {
   book_id: Int!
   title: String!
@@ -75,11 +82,17 @@ type ActionResponse {
 }
 
 type Query {
+  login(options: LoginInput!): AuthResponse!
   user(id: Float!): UserOutput!
   users(limit: Float, page: Float): UserCursor!
   book(id: Float!): [BookOutput!]!
   books(limit: Float, page: Float): BookCursor!
   Library: [Library!]!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 type Mutation {
@@ -98,6 +111,7 @@ input UserInput {
   firstname: String!
   lastname: String!
   email: String!
+  password: String!
   age: Int!
 }
 
@@ -105,6 +119,7 @@ input UserUpdateInput {
   firstname: String
   lastname: String
   email: String
+  password: String
   age: Int
 }
 
