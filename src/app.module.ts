@@ -8,14 +8,18 @@ import { LibraryModule } from './library/library.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { join } from 'path';
-import { TYPEORM } from './environments';
+//import { TYPEORM } from './environments';
 @Module({
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     TypeOrmModule.forRoot({
-      ...TYPEORM,
+      host: 'localhost',
+      port: 3306,
+      username: 'testuser',
+      password: 'root123',
+      database: 'library',
       type: 'mysql',
       synchronize: true,
       logging: false,
