@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Book } from '../../book/book.entity';
+import { User } from '../user.entity';
 
 @ObjectType()
 export class UserOutput {
@@ -47,4 +48,16 @@ export class AuthResponse {
 
   @Field(() => String)
   msg: string;
+}
+
+@ObjectType()
+export class AddUserResponse {
+  @Field(() => Int)
+  status: number;
+
+  @Field(() => String)
+  msg: string;
+
+  @Field(() => User, { nullable: true })
+  user?: User;
 }

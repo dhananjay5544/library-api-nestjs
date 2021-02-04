@@ -60,6 +60,12 @@ type AuthResponse {
   msg: String!
 }
 
+type AddUserResponse {
+  status: Int!
+  msg: String!
+  user: User
+}
+
 type BookOutput {
   book_id: Int!
   title: String!
@@ -96,7 +102,7 @@ input LoginInput {
 }
 
 type Mutation {
-  addUser(input: UserInput!): User!
+  addUser(input: UserInput!): AddUserResponse!
   updateUser(input: UserUpdateInput!, id: Float!): String!
   deleteUser(id: Float!): String!
   addBook(input: BookInput!): Book!
