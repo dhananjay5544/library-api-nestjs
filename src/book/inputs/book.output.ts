@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Author } from '../author.entity';
 import { User } from '../../user/user.entity';
+import { Book } from '../book.entity';
 
 @ObjectType()
 export class BookOutput {
@@ -33,4 +34,22 @@ export class BookCursor {
 
   @Field(() => [BookOutput])
   books: BookOutput;
+}
+
+@ObjectType()
+export class AddBookOutput {
+  @Field()
+  msg: string;
+
+  @Field(() => Book)
+  book?: Book;
+}
+
+@ObjectType()
+export class UODBookOutput {
+  @Field()
+  msg: string;
+
+  @Field(() => Int)
+  status: number;
 }
