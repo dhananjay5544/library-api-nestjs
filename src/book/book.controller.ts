@@ -8,36 +8,46 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { Client, ClientKafka, Transport } from '@nestjs/microservices';
 import { Book } from './book.entity';
-import { BookService } from './book.service';
 import { BookUpdateInput } from './inputs/book.input';
+import { bookClientOptions } from '../config/kafkaClient';
 
 @Controller('book')
 export class BookController {
-  constructor(private readonly bookService: BookService) {}
+  @Client({ transport: Transport.KAFKA, options: bookClientOptions('rest') })
+  client: ClientKafka;
 
+  async onModuleInit() {
+    this.client.subscribeToResponseOf('get.book');
+    this.client.subscribeToResponseOf('get.books');
+    this.client.subscribeToResponseOf('add.book');
+    this.client.subscribeToResponseOf('update.book');
+    this.client.subscribeToResponseOf('delete.book');
+    await this.client.connect();
+  }
   @Get(':id')
   getBook(@Param() param) {
-    return this.bookService.getBook(param.id);
+    return this.client.send('get.book', param);
   }
 
   @Get()
   getBooks(@Query() query) {
-    return this.bookService.getBooks(query.page, query.limit);
+    return this.client.send('get.books', query);
   }
 
   @Post()
   addBook(@Body() book: Book) {
-    return this.bookService.addBook(book);
+    return this.client.send('add.book', book);
   }
 
   @Put(':id')
   updateBook(@Param() param, @Body() book: BookUpdateInput) {
-    return this.bookService.updateBook(param.id, book);
+    return this.client.send('update.book', { id: param.id, book });
   }
 
   @Delete(':id')
   deleteBook(@Param() param) {
-    return this.bookService.deleteBook(param.id);
+    return this.client.send('delete.book', param);
   }
 }
