@@ -81,6 +81,16 @@ type BookCursor {
   books: [BookOutput!]!
 }
 
+type AddBookOutput {
+  msg: String!
+  book: Book!
+}
+
+type UODBookOutput {
+  msg: String!
+  status: Int!
+}
+
 type ActionResponse {
   status: Int!
   msg: String!
@@ -105,9 +115,9 @@ type Mutation {
   addUser(input: UserInput!): AddUserResponse!
   updateUser(input: UserUpdateInput!, id: Float!): String!
   deleteUser(id: Float!): String!
-  addBook(input: BookInput!): Book!
-  updateBook(input: BookUpdateInput!, id: Float!): String!
-  deleteBook(id: Float!): String!
+  addBook(input: BookInput!): AddBookOutput!
+  updateBook(input: BookUpdateInput!, id: Float!): UODBookOutput!
+  deleteBook(id: Float!): UODBookOutput!
   issueBook(options: BookIssueInput!): ActionResponse!
   issueBooks(options: BooksIssueInput!): ActionResponse!
   returnBook(options: BookReturnInput!): ActionResponse!
