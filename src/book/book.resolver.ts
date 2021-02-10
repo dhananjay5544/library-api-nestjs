@@ -1,41 +1,58 @@
 import { Query, Resolver, Mutation, Args, Int } from '@nestjs/graphql';
-import { Book } from './book.entity';
-import { BookService } from './book.service';
+import { Client, ClientKafka, Transport } from '@nestjs/microservices';
+import { bookClientOptions } from 'src/config/kafkaClient';
 import { BookInput, BookUpdateInput } from './inputs/book.input';
-import { BookCursor, BookOutput } from './inputs/book.output';
+import {
+  AddBookOutput,
+  BookCursor,
+  BookOutput,
+  UODBookOutput,
+} from './inputs/book.output';
 
 @Resolver()
 export class BookResolver {
-  constructor(private bookService: BookService) {}
+  @Client({
+    transport: Transport.KAFKA,
+    options: bookClientOptions('graphql'),
+  })
+  client: ClientKafka;
 
+  async onModuleInit() {
+    this.client.subscribeToResponseOf('get.book');
+    this.client.subscribeToResponseOf('get.books');
+    this.client.subscribeToResponseOf('add.book');
+    this.client.subscribeToResponseOf('update.book');
+    this.client.subscribeToResponseOf('delete.book');
+    await this.client.connect();
+  }
   @Query(() => [BookOutput])
-  async book(@Args('id') id: number) {
-    return await this.bookService.getBook(id);
+  book(@Args('id') id: number) {
+    return this.client.send('get.book', { id });
   }
 
   @Query(() => BookCursor)
-  async books(
+  books(
     @Args('page', { nullable: true }) page?: number,
     @Args('limit', { nullable: true }) limit?: number,
   ) {
-    return await this.bookService.getBooks(page, limit);
+    return this.client.send('get.books', { page, limit });
   }
 
-  @Mutation(() => Book)
-  async addBook(@Args('input') input: BookInput) {
-    return await await this.bookService.addBook(input);
+  @Mutation(() => AddBookOutput)
+  addBook(@Args('input') input: BookInput) {
+    return this.client.send('add.book', input);
   }
 
-  @Mutation(() => String)
+  @Mutation(() => UODBookOutput)
   async updateBook(
     @Args('id') id: number,
-    @Args('input') input: BookUpdateInput,
+    @Args('input') book: BookUpdateInput,
   ) {
-    return await (await this.bookService.updateBook(id, input)).msg;
+    return this.client.send('update.book', { id, book });
   }
 
-  @Mutation(() => String)
+  @Mutation(() => UODBookOutput)
   async deleteBook(@Args('id') id: number) {
-    return await (await this.bookService.deleteBook(id)).msg;
+    return this.client.send('delete.book', { id });
   }
 }
