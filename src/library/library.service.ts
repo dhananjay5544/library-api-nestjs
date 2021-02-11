@@ -28,6 +28,9 @@ export class LibraryService {
     });
 
     if (user.length !== 0) {
+      if (book[0].quantity === 0) {
+        return { status: 200, msg: `Book Out of stock` };
+      }
       // check book already issued
       const isIssued = await Library.find({
         where: {
