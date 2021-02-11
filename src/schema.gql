@@ -47,6 +47,12 @@ type UserOutput {
   books: [Book!]!
 }
 
+type UserResponse {
+  status: Int!
+  msg: String!
+  user: UserOutput
+}
+
 type UserCursor {
   page: Int
   hasMore: Boolean!
@@ -99,7 +105,7 @@ type ActionResponse {
 
 type Query {
   login(options: LoginInput!): AuthResponse!
-  user(id: Float!): UserOutput!
+  user(id: Float!): UserResponse!
   users(limit: Float, page: Float): UserCursor!
   book(id: Float!): [BookOutput!]!
   books(limit: Float, page: Float): BookCursor!

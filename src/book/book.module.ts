@@ -13,7 +13,7 @@ import { BookResolver } from './book.resolver';
         options: {
           client: {
             clientId: 'book',
-            brokers: ['localhost:9092'],
+            brokers: ['kafka:9092'],
           },
           consumer: {
             groupId: 'book-consumer',

@@ -16,7 +16,7 @@ import { AuthModule } from './auth/auth.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     TypeOrmModule.forRoot({
-      host: 'localhost',
+      host: 'emtec',
       port: 3306,
       username: 'testuser',
       password: 'root123',
