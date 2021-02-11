@@ -3,20 +3,19 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Post,
   Put,
   Query,
 } from '@nestjs/common';
-import { Client, ClientKafka, Transport } from '@nestjs/microservices';
+import { ClientKafka } from '@nestjs/microservices';
 import { Book } from './book.entity';
 import { BookUpdateInput } from './inputs/book.input';
-import { bookClientOptions } from '../config/kafkaClient';
 
 @Controller('book')
 export class BookController {
-  @Client({ transport: Transport.KAFKA, options: bookClientOptions('rest') })
-  client: ClientKafka;
+  constructor(@Inject('BOOK_SERVICE') private client: ClientKafka) {}
 
   async onModuleInit() {
     this.client.subscribeToResponseOf('get.book');

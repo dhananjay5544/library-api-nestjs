@@ -31,4 +31,10 @@ const enviroment = {
 };
 const TYPEORM = enviroment[NODE_ENV];
 
-export { NODE_ENV, TYPEORM };
+const KAFKA_CONFIG = {
+  brokers: process.env.KAFKA_BROKERS,
+  clientId: process.env.CLIENT_ID,
+  consumerGroupID: process.env.CONSUMER_GROUP_ID,
+};
+
+export { NODE_ENV, TYPEORM, KAFKA_CONFIG };

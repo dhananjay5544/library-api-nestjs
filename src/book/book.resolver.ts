@@ -1,6 +1,6 @@
+import { Inject } from '@nestjs/common';
 import { Query, Resolver, Mutation, Args, Int } from '@nestjs/graphql';
-import { Client, ClientKafka, Transport } from '@nestjs/microservices';
-import { bookClientOptions } from 'src/config/kafkaClient';
+import { ClientKafka } from '@nestjs/microservices';
 import { BookInput, BookUpdateInput } from './inputs/book.input';
 import {
   AddBookOutput,
@@ -11,11 +11,7 @@ import {
 
 @Resolver()
 export class BookResolver {
-  @Client({
-    transport: Transport.KAFKA,
-    options: bookClientOptions('graphql'),
-  })
-  client: ClientKafka;
+  constructor(@Inject('BOOK_SERVICE') private client: ClientKafka) {}
 
   async onModuleInit() {
     this.client.subscribeToResponseOf('get.book');
