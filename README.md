@@ -15,7 +15,11 @@
 
 Library management API build in Nest.js which uses TypeORM so it can be migrated to any database as per requirement. API has custom validations and cursor based pagination.
 
-#### Documentation
+## Update
+  All the operations related to books has been migrated to saperate microservice using Apache Kafka.
+  You can find the book-microservice here [book-microservice](https://github.com/dhananjay5544/books-service)
+  
+## Documentation
 
 **1. GraphQL**
 GraphQL api runs on apollo playground which is self documented. It'll run on following url :rocket:
