@@ -1,10 +1,9 @@
-import { KAFKA_CONFIG } from '../../environments/index';
 export const clientOptions = {
   client: {
-    clientId: KAFKA_CONFIG.clientId,
-    brokers: [KAFKA_CONFIG.brokers],
+    clientId: 'book',
+    brokers: ['kafka:9092'],
   },
   consumer: {
-    groupId: KAFKA_CONFIG.consumerGroupID,
+    groupId: 'book-consumer',
   },
 };

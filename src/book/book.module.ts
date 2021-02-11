@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-//import { clientOptions } from 'src/config/kafkaClient';
+import { clientOptions } from 'src/config/kafkaClient';
 import { BookController } from './book.controller';
 import { BookResolver } from './book.resolver';
 
@@ -10,15 +10,7 @@ import { BookResolver } from './book.resolver';
       {
         name: 'BOOK_SERVICE',
         transport: Transport.KAFKA,
-        options: {
-          client: {
-            clientId: 'book',
-            brokers: ['kafka:9092'],
-          },
-          consumer: {
-            groupId: 'book-consumer',
-          },
-        },
+        options: clientOptions,
       },
     ]),
   ],
