@@ -27,7 +27,7 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
 - **Add book**
 
   ```bash
-  POST http://localhost:3000/book
+  POST http://localhost:3000/api/v1/book
   content-type: application/json
 
   {
@@ -42,21 +42,21 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
 
 - **Get book by id**
   ```bash
-  GET http://localhost:3000/book/1
+  GET http://localhost:3000/api/v1/book/1
   ```
 - **Get books**
   - normal request
     ```bash
-    GET http://localhost:3000/book
+    GET http://localhost:3000/api/v1/book
     ```
   - pagination request with query params
     ```bash
-    GET http://localhost:3000/book?page=1&limit=10
+    GET http://localhost:3000/api/v1/book?page=1&limit=10
     ```
 - **Update book**
 
   ```bash
-  PUT http://localhost:3000/book/1
+  PUT http://localhost:3000/api/v1/book/1
   content-type: application/json
 
   {
@@ -66,14 +66,14 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
 
 - **Delete book**
   ```bash
-  DELETE http://localhost:3000/book/1
+  DELETE http://localhost:3000/api/v1/book/1
   ```
 - **Issue book**
 
   - issue single book per request to user
 
     ```bash
-    POST http://localhost:3000/library/issue
+    POST http://localhost:3000/api/v1/library/issue
     content-type: application/json
 
     {
@@ -85,7 +85,7 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
   - issue multiple books per request to user
 
     ```bash
-    POST http://localhost:3000/library/issue
+    POST http://localhost:3000/api/v1/library/issue
     content-type: application/json
 
     {
@@ -97,7 +97,7 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
 - **Return book**
 
   ```bash
-  POST http://localhost:3000/library/return
+  POST http://localhost:3000/api/v1/library/return
   content-type: application/json
 
   {
@@ -109,7 +109,7 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
 - **Register user**
 
   ```bash
-  POST http://localhost:3000/user
+  POST http://localhost:3000/api/v1/user
   content-type: application/json
 
   {
@@ -149,7 +149,7 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
 - **User Login**
 
   ```bash
-  POST http://localhost:3000/user/auth
+  POST http://localhost:3000/api/v1/user/auth
   content-type: application/json
 
   {
@@ -170,21 +170,21 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
 
 - **Get user by id**
   ```bash
-  GET http://localhost:3000/user/1
+  GET http://localhost:3000/api/v1/user/1
   ```
 - **Get users**
   - normal request
     ```bash
-    GET http://localhost:3000/user
+    GET http://localhost:3000/api/v1/user
     ```
   - pagination request with query params
     ```bash
-    GET http://localhost:3000/user?page=1&limit=10
+    GET http://localhost:3000/api/v1/user?page=1&limit=10
     ```
 - **Update user**
 
   ```bash
-  PUT http://localhost:3000/user/1
+  PUT http://localhost:3000/api/v1/user/1
   content-type: application/json
 
   {
@@ -194,7 +194,7 @@ GraphQL api runs on apollo playground which is self documented. It'll run on fol
 
 - **Delete user**
   ```bash
-  DELETE http://localhost:3000/user/1
+  DELETE http://localhost:3000/api/v1/user/1
   ```
 
 ## Installation
