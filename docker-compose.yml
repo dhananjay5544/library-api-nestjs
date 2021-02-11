@@ -1,37 +1,10 @@
 version: '3.1'
-
 services:
-  zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: zookeeper
-    ports:
-      - 2181:2181
-
-  kafka:
-    image: wurstmeister/kafka
-    ports:
-      - 9092:9092
-    depends_on:
-      - zookeeper
-    environment:
-      KAFKA_ADVERTISED_HOST_NAME: localhost
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-
-  api:
-    container_name: emtec-library
-    build: .
-    ports:
-      - ${PORT}:${PORT}
+  mysql:
+    container_name: emtec
+    image: mysql
     env_file:
       - .env
-    networks:
-      - library-net
-    depends_on:
-      - mysql
-
-  mysql:
-    container_name: db
-    image: mysql
     networks:
       - library-net
     environment:
@@ -43,6 +16,43 @@ services:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - ms2data:/var/lib/mysql
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    networks:
+      - library-net
+    container_name: zookeeper
+
+  kafka:
+    container_name: kafka
+    image: wurstmeister/kafka
+    networks:
+      - library-net
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  book-service:
+    container_name: book-service
+    image: book-service
+    networks:
+      - library-net
+    depends_on:
+      - mysql
+      - kafka
+      - zookeeper
+
+  api-getway:
+    container_name: emtec-library-api
+    image: api-getway
+    ports:
+      - 3000:3000
+    networks:
+      - library-net
+    depends_on:
+      - book-service
 
 networks:
   library-net:
