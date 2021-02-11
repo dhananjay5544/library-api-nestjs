@@ -1,20 +1,18 @@
-FROM node:latest AS builder
+FROM node:latest
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json ./
 
-RUN yarn install --production
+COPY yarn.lock ./
+
+RUN yarn install 
 
 COPY . .
 
 RUN yarn run build
 
-# final stage build =>
-FROM node:current-alpine3.12
-
-COPY --from=builder /usr/src/app/dist ./dist
-
 EXPOSE 3000
 
-CMD ["node", "dist/main"]
+CMD ["node", "./dist/main"]
+
