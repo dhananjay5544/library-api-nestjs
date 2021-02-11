@@ -24,6 +24,18 @@ export class UserOutput {
 }
 
 @ObjectType()
+export class UserResponse {
+  @Field(() => Int)
+  status: number;
+
+  @Field()
+  msg?: string;
+
+  @Field(() => UserOutput, { nullable: true })
+  user: UserOutput;
+}
+
+@ObjectType()
 export class UserCursor {
   @Field(() => Int, { nullable: true })
   page: number;

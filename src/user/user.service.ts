@@ -38,7 +38,10 @@ export class UserService {
     const user = await User.find({
       where: { user_id: id },
     });
-    return user[0];
+    if (user.length === 0) {
+      return { status: 404, msg: 'User not found' };
+    }
+    return { status: 200, msg: 'User found!', user: user[0] };
   }
 
   async getUsers(page: number, limit: number) {

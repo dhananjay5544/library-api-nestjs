@@ -5,6 +5,7 @@ import {
   AuthResponse,
   UserCursor,
   UserOutput,
+  UserResponse,
 } from './inputs/user.output';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -18,7 +19,7 @@ export class UserResolver {
     return await this.userService.userLogin(data.email, data.password);
   }
 
-  @Query(() => UserOutput)
+  @Query(() => UserResponse)
   async user(@Args('id') id: number) {
     return await this.userService.getUser(id);
   }
